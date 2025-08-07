@@ -23,3 +23,25 @@ window.addEventListener("scroll", () => {
     navbar.classList.remove("scrolled");
   }
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const cards = document.querySelectorAll(".feature-card");
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("animate");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      threshold: 0.2,
+    }
+  );
+
+  cards.forEach((card) => {
+    observer.observe(card);
+  });
+});
