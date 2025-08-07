@@ -45,3 +45,34 @@ document.addEventListener("DOMContentLoaded", function () {
     observer.observe(card);
   });
 });
+
+// Intersection Observer for animations in the skill section
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: "0px 0px -50px 0px",
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("animate");
+
+      // ✅ Special handling for skill bars
+      if (entry.target.classList.contains("skill-item")) {
+        const progressBar = entry.target.querySelector(".skill-progress");
+        const width = progressBar.getAttribute("data-width");
+        setTimeout(() => {
+          progressBar.style.width = width + "%";
+        }, 200);
+      }
+    }
+  });
+}, observerOptions);
+
+// ✅ Observe skill items
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".skill-item").forEach((item, index) => {
+    item.style.transitionDelay = `${index * 0.1}s`;
+    observer.observe(item);
+  });
+});
